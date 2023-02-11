@@ -14,30 +14,15 @@
 .PHONY: help
 .DEFAULT_GOAL := help
 
+install: ## Launch install routine
+	@bash scripts/install.sh
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+uninstall: ## Launch uninstall routine
+	@bash scripts/uninstall.sh
 
 update: ## Update moonraker-timelapse
 	@git fetch && git pull
-	@printf "Please restart moonrakerto take changes effect ...\n"
-
-
+	@printf "Please restart moonraker to take changes effect ...\n"
 
 help: ## Show this help
 	@printf "Welcome to moonraker-timelapse installer\n"
