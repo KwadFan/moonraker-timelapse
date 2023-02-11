@@ -33,7 +33,9 @@
 
 
 
-
+update: ## Update moonraker-timelapse
+	@git fetch && git pull
+	@printf "Please restart moonrakerto take changes effect ..."
 
 
 
