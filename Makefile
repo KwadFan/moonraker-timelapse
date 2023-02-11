@@ -11,7 +11,7 @@
 #### ##########################################################################
 
 
-.PHONY: help
+.PHONY: help install uninstall update
 .DEFAULT_GOAL := help
 
 install: ## Launch install routine
