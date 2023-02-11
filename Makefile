@@ -4,6 +4,8 @@
 ####
 #### Copyright 2023 till today
 ####
+#### This file may be distributed under the terms of the GNU GPLv3 license.
+####
 ###############################################################################
 ####
 #### Self documenting Makefile
