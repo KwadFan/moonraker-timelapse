@@ -190,7 +190,7 @@ function dep_not_found_msg() {
 
 ### Service related msg
 function stop_service_header_msg() {
-    printf "Stopping all related service(s) ... \n"
+    printf "Stopping related service(s) ... \n"
 }
 
 function stop_service_msg() {
