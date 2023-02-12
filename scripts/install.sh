@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #### Moonraker Timelapse component uninstaller
 ####
-#### Copyright (C) 2021 Christoph Frei <fryakatkop@gmail.com>
-#### Copyright (C) 2021 Stephan Wendel aka KwadFan <me@stephanwe.de>
+#### Copyright (C) 2021 till today Christoph Frei <fryakatkop@gmail.com>
+#### Copyright (C) 2021 till today Stephan Wendel aka KwadFan <me@stephanwe.de>
 ####
 #### This file may be distributed under the terms of the GNU GPLv3 license.
 ####
@@ -21,28 +21,42 @@ if [[ ${UID} = "0" ]]; then
     printf "\tYou will be prompted for sudo password if needed!\nExiting...\n"
     exit 1
 fi
+### END
 
-
-# Find SRCDIR from the pathname of this script
+## Find SRCDIR from the pathname of this script
 SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
+### END
 
-# Initialize global vars and arrays
+## Initialize global vars and arrays
 DATA_DIR=()
 DEPENDS_ON=( moonraker klipper )
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
 SERVICES=()
+### END
 
 ## Helper funcs
-
-# Get Instance names, also used for single instance installs
-function get_instance_names() {
-    local instances path
-    instances="$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n")"
-    while read -r path ; do
-        DATA_DIR+=("${path}")
-    done <<< "${instances}"
+### Ask for proceding install (Step 2)
+function continue_install() {
+    local reply
+    while true; do
+        read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
+        case "${reply}" in
+            [Yy]* )
+                break
+            ;;
+            [Nn]* )
+                abort_msg ### See Error messages
+                exit 0
+            ;;
+            * )
+                printf "\033[31mERROR: Please type Y or N !\033[0m"
+            ;;
+        esac
+    done
 }
+### END
 
+### Initial check func (Step 3)
 function initial_check() {
     dep_check_msg
     for i in "${DEPENDS_ON[@]}"; do
@@ -54,27 +68,9 @@ function initial_check() {
         fi
     done
 }
+### END
 
-# Ask for proceding install
-function continue_install() {
-    local reply
-    while true; do
-        read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
-        case "${reply}" in
-            [Yy]* )
-                break
-            ;;
-            [Nn]* )
-                abort_msg
-                exit 0
-            ;;
-            * )
-                printf "\033[31mERROR: Please type Y or N !\033[0m"
-            ;;
-        esac
-    done
-}
-
+### Service related funcs (Step 4)
 function get_service_names() {
     for i in "${DEPENDS_ON[@]}"; do
         sudo systemctl list-units --full --all -t service --no-legend \
@@ -90,9 +86,26 @@ function set_service_name_array() {
 
 function stop_services() {
     set_service_name_array
-
-    echo "DEBUG: stoping ${SERVICES[*]}"
+    for service in "${SERVICE[@]}"; do
+        stop_service_msg "${service}"
+        sleep 1
+        #sudo systemctl stop "$"
+    done
 }
+### END
+
+# Get Instance names, also used for single instance installs
+function get_instance_names() {
+    local instances path
+    instances="$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n")"
+    while read -r path ; do
+        DATA_DIR+=("${path}")
+    done <<< "${instances}"
+}
+
+
+
+
 
 # Ask to reboot
 function ask_to_reboot() {
@@ -138,6 +151,8 @@ function link_component() {
 }
 
 ## Message helper funcs
+
+### Welcome message (Step 1)
 function welcome_msg() {
     printf "\n\033[31mAhoi!\033[0m\n"
     printf "moonraker-timelapse install routine\n"
@@ -148,10 +163,7 @@ function welcome_msg() {
     printf "\033[31m##################################################\033[0m\n\n"
 }
 
-function abort_msg() {
-    printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
-}
-
+### Dependencie messages
 function dep_check_msg() {
     printf "Check for dependencies to use moonraker-timelapse ...\n"
 }
@@ -165,14 +177,27 @@ function dep_not_found_msg() {
     install_first_msg "${1}"
 }
 
+### Service related msg
+function stop_service_msg() {
+    printf "Stopping service '%s' ... " "${1}"
+}
+
+function service_stopped_msg() {
+    printf "[\033[32mOK\033[0m]\n"
+}
+
+function service_not_active_msg() {
+    printf "[\033[32mOK\033[0m]\n"
+}
+
+### Error messages
 function install_first_msg() {
     printf "Please install '%s' first! [\033[31mEXITING\033[0m]\n" "${1}"
     exit 1
 }
 
-function finished_install_msg() {
-    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\n\tTo bring up stopped services it is recommended to reboot.\n\n"
+function abort_msg() {
+    printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
 }
 
 function reboot_declined_msg() {
@@ -180,6 +205,11 @@ function reboot_declined_msg() {
     printf "GoodBye ...\n"
 }
 
+### Install finished message(s)
+function finished_install_msg() {
+    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
+    printf "\n\tTo bring up stopped services it is recommended to reboot.\n\n"
+}
 
 # Default Parameters
 function main() {
@@ -207,10 +237,12 @@ ask_to_reboot
 
 }
 
+## MAIN
+
 main
 exit 0
 
-
+###### EOF ######
 
 # function stop_klipper() {
 #     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "klipper.service")" ]; then
