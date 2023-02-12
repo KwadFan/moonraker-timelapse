@@ -31,7 +31,7 @@ function ffmpeg_installed() {
 
 # Default Parameters
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
-DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n" | sed 's/\n/ /')" )
+DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n" | sed 's/\\n/ /')" )
 FFMPEG_BIN="$(ffmpeg_installed)"
 DEPENDS_ON=( moonraker klipper )
 
