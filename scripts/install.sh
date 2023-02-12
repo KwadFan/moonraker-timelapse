@@ -90,8 +90,13 @@ function stop_services() {
     set_service_name_array
     for service in "${SERVICES[@]}"; do
         stop_service_msg "${service}"
-        sleep 1
-        #sudo systemctl stop "$"
+        if sudo systemctl -q is-active "${service}"; then
+            sleep 1
+            #sudo systemctl stop "${service}"
+            service_stopped_msg
+        else
+            service_not_active_msg
+        fi
     done
 }
 ### END
@@ -189,7 +194,7 @@ function service_stopped_msg() {
 }
 
 function service_not_active_msg() {
-    printf "[\033[32mOK\033[0m]\n"
+    printf "[\033[31mNOT ACTIVE\033[0m]\n"
 }
 
 ### Error messages
