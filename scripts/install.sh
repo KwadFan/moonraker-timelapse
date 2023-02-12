@@ -52,14 +52,13 @@ function initial_check() {
             dep_not_found_msg "${i}"
         fi
     done
-    continue_install
 }
 
 # Ask for proceding
 function continue_install() {
     local reply
     while true; do
-        read -erp "Continue? [Y/n]: " -i "Y" reply
+        read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
         case "${reply}" in
             [Yy]* )
                 break
@@ -143,7 +142,10 @@ echo "${SRC_DIR}"
 # Step 1: Print welcome message
 welcome_msg
 
-# Step 2: Initial checks for dependencies (klipper/moonraker)
+# Step 2: Ask to proceed
+continue_install
+
+# Step 3: Initial checks for dependencies (klipper/moonraker)
 initial_check
 
 
