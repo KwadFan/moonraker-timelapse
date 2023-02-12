@@ -29,7 +29,7 @@ function get_instance_names() {
     instances="$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n")"
     while read -r path ; do
         DATA_DIR+=("${path}")
-    done < "${instances}"
+    done <<< "${instances}"
 }
 
 # Check if ffmpeg is installed, returns path if installed
