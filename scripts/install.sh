@@ -13,7 +13,7 @@
 set -Ee
 
 ## Debug Option
-# set -x
+set -x
 
 # Find SRCDIR from the pathname of this script
 SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/ && pwd )"
