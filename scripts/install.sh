@@ -82,6 +82,8 @@ function ask_to_reboot() {
         read -erp "Would you like to proceed with rebooting? [Y/n]: " -i "Y" reply
         case "${reply}" in
             [Yy]* )
+                printf "\nRebooting in 5 seconds ... "
+                sleep 5
                 sudo reboot
             ;;
             [Nn]* )
@@ -150,7 +152,7 @@ function install_first_msg() {
 
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\nTo bring up stopped services it is recommended to reboot."
+    printf "\n\tTo bring up stopped services it is recommended to reboot.\n"
 }
 
 function reboot_declined_msg() {
