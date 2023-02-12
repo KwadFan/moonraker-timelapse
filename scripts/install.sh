@@ -85,8 +85,10 @@ function set_service_name_array() {
 }
 
 function stop_services() {
+    local service
+    ## Create services array
     set_service_name_array
-    for service in "${SERVICE[@]}"; do
+    for service in "${SERVICES[@]}"; do
         stop_service_msg "${service}"
         sleep 1
         #sudo systemctl stop "$"
@@ -244,26 +246,6 @@ exit 0
 
 ###### EOF ######
 
-# function stop_klipper() {
-#     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "klipper.service")" ]; then
-#         echo "Klipper service found! Stopping during Install."
-#         sudo systemctl stop klipper
-#     else
-#         echo -e "${RED}Error:${NC} Klipper service not found, please install Klipper first\nNOTE: If you use multiple instances of klipper you need to create the symlinks manually for now! see Github issue #13 for further information"
-#         exit 1
-#     fi
-# }
-
-# function stop_moonraker() {
-#     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "moonraker.service")" ]; then
-#         echo "Moonraker service found! Stopping during Install."
-#         sudo systemctl stop moonraker
-#     else
-#         echo "Moonraker service not found, please install Moonraker first"
-#         exit 1
-#     fi
-# }
-
 # function link_extension() {
 #
 #     if [ -d "${KLIPPER_CONFIG_DIR}" ]; then
@@ -277,41 +259,10 @@ exit 0
 # }
 
 
-# function restart_services() {
-#     echo "Restarting Moonraker..."
-#     sudo systemctl restart moonraker
-#     echo "Restarting Klipper..."
-#     sudo systemctl restart klipper
-# }
 
 
-# function check_ffmpeg() {
-
-#     if [ ! -f "$FFMPEG_BIN" ]; then
-#         echo -e "${YELLOW}WARNING: FFMPEG not found in '${FFMPEG_BIN}'. Render will not be possible!${NC}\nPlease install FFMPEG running:\n\n  sudo apt install ffmpeg\n\nor specify 'ffmpeg_binary_path' in moonraker.conf in the [timelapse] section if ffmpeg is installed in a different directory, to use render functionality"
-# 	fi
-
-# }
 
 
-# ### MAIN
-
-# # Parse command line arguments
-# while getopts "c:h" arg; do
-#     if [ -n "${arg}" ]; then
-#         case $arg in
-#             c)
-#                 KLIPPER_CONFIG_DIR=$OPTARG
-#                 break
-#             ;;
-#             [?]|h)
-#                 echo -e "\nUsage: ${0} -c /path/to/klipper_config"
-#                 exit 1
-#             ;;
-#         esac
-#     fi
-#     break
-# done
 
 # # Run steps
 # stop_klipper
