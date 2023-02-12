@@ -17,8 +17,8 @@ set -Ee
 
 ### Check non-root
 if [[ ${UID} = "0" ]]; then
-    printf "\n\tYOU DONT NEED TO RUN INSTALLER AS ROOT!"
-    printf "\tYou will be prompted for sudo password if needed!\nExiting..."
+    printf "\n\tYOU DONT NEED TO RUN INSTALLER AS ROOT!\n"
+    printf "\tYou will be prompted for sudo password if needed!\nExiting...\n"
     exit 1
 fi
 
