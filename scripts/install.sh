@@ -52,6 +52,27 @@ function initial_check() {
             dep_not_found_msg "${i}"
         fi
     done
+    continue_install
+}
+
+# Ask for proceding
+function continue_install() {
+    local reply
+    while true; do
+        read -erp "Continue? [Y/n]: " -i "Y" reply
+        case "${reply}" in
+            [Yy]* )
+                break
+            ;;
+            [Nn]* )
+                abort_msg
+                exit 0
+            ;;
+            * )
+                printf "\033[31mERROR: Please type Y or N !\033[0m"
+            ;;
+        esac
+    done
 }
 
 # Check if ffmpeg is installed, returns path if installed
@@ -83,6 +104,10 @@ function welcome_msg() {
     printf "Make sure you are \033[31mnot\033[0m printing during install!\n"
     printf "All related services will be stopped!\n"
     printf "\033[31m##################################################\033[0m\n\n"
+}
+
+function abort_msg() {
+    printf "Configuration aborted by user ... \033[31mExiting!\033[0m\n"
 }
 
 function dep_check_msg() {
