@@ -72,8 +72,9 @@ function welcome_msg() {
     printf "moonraker-timelapse install routine\n"
     printf "\n\tThis will take some time ...\n"
     printf "\n\033[31m############ WARNING ############\033[0m\n"
-    printf "\tMake sure you are \033[31mnot\033[0m printing meanwhile!\n"
-    printf "\tWhile install is running all related services will be stopped!\n\n"
+    printf "Make sure you are \033[31mnot\033[0m printing during install!\n"
+    printf "All related services will be stopped!\n\n"
+    printf "\n\033[31m#################################\033[0m\n"
 }
 
 function dep_check_msg() {
