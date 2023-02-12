@@ -183,6 +183,7 @@ function dep_not_found_msg() {
     printf "Dependency '%s' not found ... [\033[31mFAILED\033[0m]\n" "${1}"
     install_first_msg "${1}"
 }
+### END
 
 ### Service related msg
 function stop_service_msg() {
@@ -196,6 +197,7 @@ function service_stopped_msg() {
 function service_not_active_msg() {
     printf "[\033[31mNOT ACTIVE\033[0m]\n"
 }
+### END
 
 ### Error messages
 function install_first_msg() {
@@ -211,6 +213,7 @@ function reboot_declined_msg() {
     printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
     printf "GoodBye ...\n"
 }
+### END
 
 ### Install finished message(s)
 function finished_install_msg() {
