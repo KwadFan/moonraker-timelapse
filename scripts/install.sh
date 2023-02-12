@@ -67,16 +67,16 @@ function link_component() {
 
 ## Message helper funcs
 function dep_found_msg() {
-    printf "Dependency '%s' found ... [\033[32mOK\033[0m]" "${1}"
+    printf "Dependency '%s' found ... [\033[32mOK\033[0m]\n" "${1}"
 }
 
 function dep_not_found_msg() {
-    printf "Dependency '%s' not found ... [\033[32mFAILED\033[0m]" "${1}"
+    printf "Dependency '%s' not found ... [\033[31mFAILED\033[0m]\n" "${1}"
     install_first_msg "${1}"
 }
 
 function install_first_msg() {
-    printf "Please install '%s' first! [\033[31mEXITING\033[0m]" "${1}"
+    printf "Please install '%s' first! [\033[31mEXITING\033[0m]\n" "${1}"
     exit 1
 }
 
