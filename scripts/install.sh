@@ -147,7 +147,12 @@ function install_first_msg() {
     exit 1
 }
 
+function finished_install_msg() {
+    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ..."
+}
+
 function reboot_msg() {
+    finished_install_msg
     printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
     printf "GoodBye ...\n"
 }
