@@ -37,7 +37,7 @@ DEPENDS_ON=( moonraker klipper )
 
 
 echo "${DATA_DIR[@]}"
-dirname "${SRC_DIR}"
+echo "${SRC_DIR}"
 
 # function stop_klipper() {
 #     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "klipper.service")" ]; then
