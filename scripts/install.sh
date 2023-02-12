@@ -18,7 +18,18 @@ set -x
 # Find SRCDIR from the pathname of this script
 SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
 
+# Initialize global vars and arrays
+DATA_DIR=()
+
 ## Helper funcs
+
+# Get Instance names, also used for single instance installs
+function get_instance_names() {
+    local instances path
+    instances="$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n")"
+    read -ra path <<< "${instances}"
+    DATA_DIR=("${path[*]}")
+}
 
 # Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
@@ -29,14 +40,20 @@ function ffmpeg_installed() {
     fi
 }
 
+
+
 # Default Parameters
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
-DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n" | sed 's/\\n/ /')" )
+DATA_DIR=( "" )
 FFMPEG_BIN="$(ffmpeg_installed)"
 DEPENDS_ON=( moonraker klipper )
 
 
+get_instance_names
+
+
 echo "${DATA_DIR[@]}"
+echo "${DATA_DIR[1]}"
 echo "${SRC_DIR}"
 
 # function stop_klipper() {
