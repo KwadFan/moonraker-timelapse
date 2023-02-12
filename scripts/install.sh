@@ -152,7 +152,7 @@ function install_first_msg() {
 
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\n\tTo bring up stopped services it is recommended to reboot.\n"
+    printf "\n\tTo bring up stopped services it is recommended to reboot.\n\n"
 }
 
 function reboot_declined_msg() {
