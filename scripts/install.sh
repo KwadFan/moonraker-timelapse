@@ -30,6 +30,7 @@ SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
 DATA_DIR=()
 DEPENDS_ON=( moonraker klipper )
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
+SERVICES=()
 
 ## Helper funcs
 
@@ -54,7 +55,7 @@ function initial_check() {
     done
 }
 
-# Ask for proceding
+# Ask for proceding install
 function continue_install() {
     local reply
     while true; do
@@ -74,7 +75,27 @@ function continue_install() {
     done
 }
 
-# Ask for proceding
+function get_service_names() {
+    for i in "${DEPENDS_ON[@]}"; do
+        sudo systemctl list-units --full --all -t service --no-legend \
+        | grep "${i}*" | awk -F" " '{print $1}'
+    done
+}
+
+function set_service_name_array() {
+    while read -r service ; do
+        SERVICES+=("${service}")
+    done < <(get_service_names)
+}
+
+function stop_services() {
+    get_service_names
+    set_service_name_array
+
+    echo "DEBUG: stoping ${SERVICES[*]}"
+}
+
+# Ask to reboot
 function ask_to_reboot() {
     local reply
     finished_install_msg
@@ -174,6 +195,7 @@ continue_install
 initial_check
 
 # Step 4: Stop related services
+stop_services
 
 # Step 5: Determine data structure
 
