@@ -75,7 +75,7 @@ function continue_install() {
 }
 
 # Ask for proceding
-function continue_install() {
+function ask_to_reboot() {
     local reply
     while true; do
         read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
@@ -174,7 +174,7 @@ initial_check
 # Step 7: Link timelapse.cfg to $INSTANCE
 
 # Step 8: ask for reboot
-
+ask_to_reboot
 
 }
 
