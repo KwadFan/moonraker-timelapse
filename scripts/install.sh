@@ -20,7 +20,7 @@ SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/ && pwd )"
 
 # Default Parameters
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
-DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%s ")" )
+DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P ")" )
 FFMPEG_BIN="$(command -v ffmpeg)"
 DEPENDS_ON=( moonraker klipper )
 
