@@ -77,6 +77,7 @@ function continue_install() {
 # Ask for proceding
 function ask_to_reboot() {
     local reply
+    finished_install_msg
     while true; do
         read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
         case "${reply}" in
@@ -152,7 +153,6 @@ function finished_install_msg() {
 }
 
 function reboot_msg() {
-    finished_install_msg
     printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
     printf "GoodBye ...\n"
 }
