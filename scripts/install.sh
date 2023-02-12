@@ -106,7 +106,7 @@ function welcome_msg() {
 }
 
 function abort_msg() {
-    printf "Configuration aborted by user ... \033[31mExiting!\033[0m\n"
+    printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
 }
 
 function dep_check_msg() {
