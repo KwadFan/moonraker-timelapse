@@ -74,6 +74,26 @@ function continue_install() {
     done
 }
 
+# Ask for proceding
+function continue_install() {
+    local reply
+    while true; do
+        read -erp "Would you like to proceed? [Y/n]: " -i "Y" reply
+        case "${reply}" in
+            [Yy]* )
+                sudo reboot
+            ;;
+            [Nn]* )
+                reboot_msg
+                exit 0
+            ;;
+            * )
+                printf "\033[31mERROR: Please type Y or N !\033[0m"
+            ;;
+        esac
+    done
+}
+
 # Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
     local path
@@ -127,6 +147,12 @@ function install_first_msg() {
     exit 1
 }
 
+function reboot_msg() {
+    printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
+    printf "GoodBye ...\n"
+}
+
+
 # Default Parameters
 function main() {
 
@@ -138,6 +164,16 @@ continue_install
 
 # Step 3: Initial checks for dependencies (klipper/moonraker)
 initial_check
+
+# Step 4: Stop related services
+
+# Step 5: Determine data structure
+
+# Step 6: Link component to $MOONRAKER_TARGET_DIR
+
+# Step 7: Link timelapse.cfg to $INSTANCE
+
+# Step 8: ask for reboot
 
 
 }
