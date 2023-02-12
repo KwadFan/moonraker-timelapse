@@ -44,7 +44,6 @@ function ffmpeg_installed() {
 
 # Default Parameters
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
-DATA_DIR=( "" )
 FFMPEG_BIN="$(ffmpeg_installed)"
 DEPENDS_ON=( moonraker klipper )
 
