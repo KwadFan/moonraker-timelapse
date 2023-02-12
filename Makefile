@@ -17,10 +17,10 @@
 .DEFAULT_GOAL := help
 
 install: ## Launch install routine
-	@bash scripts/install.sh
+	@bash -c "scripts/install.sh"
 
 uninstall: ## Launch uninstall routine
-	@bash scripts/uninstall.sh
+	@bash -c "scripts/uninstall.sh"
 
 update: ## Update moonraker-timelapse
 	@git fetch && git pull
