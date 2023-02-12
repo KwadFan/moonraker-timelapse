@@ -20,6 +20,8 @@ SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
 
 # Initialize global vars and arrays
 DATA_DIR=()
+DEPENDS_ON=( moonraker klipper )
+MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
 
 ## Helper funcs
 
@@ -41,20 +43,36 @@ function ffmpeg_installed() {
     fi
 }
 
+function link_component() {
+    if [ -d "${MOONRAKER_TARGET_DIR}" ]; then
+        echo "Linking extension to moonraker..."
+        ln -sf "${SRC_DIR}/component/timelapse.py" "${MOONRAKER_TARGET_DIR}/timelapse.py"
+    else
+        echo -e "ERROR: ${MOONRAKER_TARGET_DIR} not found."
+        echo -e "Please Install moonraker first!\nExiting..."
+        exit 1
+    fi
+}
 
 
 # Default Parameters
-MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
-FFMPEG_BIN="$(ffmpeg_installed)"
-DEPENDS_ON=( moonraker klipper )
+function main() {
+    get_instance_names
 
 
-get_instance_names
+
 
 
 echo "${DATA_DIR[@]}"
 echo "${DATA_DIR[1]}"
 echo "${SRC_DIR}"
+
+}
+
+main
+exit 0
+
+
 
 # function stop_klipper() {
 #     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "klipper.service")" ]; then
@@ -77,14 +95,7 @@ echo "${SRC_DIR}"
 # }
 
 # function link_extension() {
-#     if [ -d "${MOONRAKER_TARGET_DIR}" ]; then
-#         echo "Linking extension to moonraker..."
-#         ln -sf "${SRCDIR}/component/timelapse.py" "${MOONRAKER_TARGET_DIR}/timelapse.py"
-#     else
-#         echo -e "ERROR: ${MOONRAKER_TARGET_DIR} not found."
-#         echo -e "Please Install moonraker first!\nExiting..."
-#         exit 1
-#     fi
+#
 #     if [ -d "${KLIPPER_CONFIG_DIR}" ]; then
 #         echo "Linking macro file..."
 #         ln -sf "${SRCDIR}/klipper_macro/timelapse.cfg" "${KLIPPER_CONFIG_DIR}/timelapse.cfg"
