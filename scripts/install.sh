@@ -148,7 +148,7 @@ function install_first_msg() {
 }
 
 function finished_install_msg() {
-    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ..."
+    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
 }
 
 function reboot_msg() {
