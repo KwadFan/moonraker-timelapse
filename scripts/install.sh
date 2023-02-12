@@ -88,6 +88,9 @@ function stop_services() {
     local service
     ## Create services array
     set_service_name_array
+    ## Dsiplay header message
+    stop_service_header_msg
+    ## Stop services
     for service in "${SERVICES[@]}"; do
         stop_service_msg "${service}"
         if sudo systemctl -q is-active "${service}"; then
@@ -186,6 +189,10 @@ function dep_not_found_msg() {
 ### END
 
 ### Service related msg
+function stop_service_header_msg() {
+    printf "Stopping all related service(s) ... \n"
+}
+
 function stop_service_msg() {
     printf "Stopping service '%s' ... " "${1}"
 }
