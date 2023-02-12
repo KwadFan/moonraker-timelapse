@@ -89,7 +89,6 @@ function set_service_name_array() {
 }
 
 function stop_services() {
-    get_service_names
     set_service_name_array
 
     echo "DEBUG: stoping ${SERVICES[*]}"
