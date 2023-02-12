@@ -66,6 +66,15 @@ function link_component() {
 }
 
 ## Message helper funcs
+function welcome_msg() {
+    printf "\n\033[31mAhoi!\033[0m\n"
+    printf "moonraker-timelapse install routine\n"
+    printf "\n\tThis will take some time ...\n"
+    printf "\n\033[31mWARNING:\033[0m\n"
+    printf "Make sure you are \033[31mnot\033[0m printing meanwhile!"
+    printf "While install is running all related services will be stopped!"
+}
+
 function dep_found_msg() {
     printf "Dependency '%s' found ... [\033[32mOK\033[0m]\n" "${1}"
 }
@@ -92,8 +101,10 @@ echo "${DATA_DIR[@]}"
 echo "${DATA_DIR[1]}"
 echo "${SRC_DIR}"
 
+# Step 1: Print welcome message
+welcome_msg
 
-# Step 1: Initial checks for dependencies (klipper/moonraker)
+# Step 2: Initial checks for dependencies (klipper/moonraker)
 initial_check
 
 
