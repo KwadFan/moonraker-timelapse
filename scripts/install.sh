@@ -15,6 +15,14 @@ set -Ee
 ## Debug Option
 # set -x
 
+### Check non-root
+if [[ ${UID} = "0" ]]; then
+    printf "\n\tYOU DONT NEED TO RUN INSTALLER AS ROOT!"
+    printf "\tYou will be prompted for sudo password if needed!\nExiting..."
+    exit 1
+fi
+
+
 # Find SRCDIR from the pathname of this script
 SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
 
