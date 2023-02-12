@@ -18,6 +18,17 @@ set -x
 # Find SRCDIR from the pathname of this script
 SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/ && pwd )"
 
+## Helper funcs
+function ffmpeg_installed() {
+    local path
+    path="$(command -v ffmpeg)"
+    if [[ -n "${path}" ]]; then
+        echo "${path}"
+    fi
+}
+
+
+
 # Default Parameters
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
 DATA_DIR=( "$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P ")" )
@@ -27,14 +38,6 @@ DEPENDS_ON=( moonraker klipper )
 
 echo "${DATA_DIR[@]}"
 
-## Helper funcs
-function ffmpeg_installed() {
-    local path
-    path="$(command -v ffmpeg)"
-    if [[ -n "${path}" ]]; then
-        echo "${path}"
-    fi
-}
 
 # function stop_klipper() {
 #     if [ "$(sudo systemctl list-units --full --all -t service --no-legend | grep -F "klipper.service")" ]; then
