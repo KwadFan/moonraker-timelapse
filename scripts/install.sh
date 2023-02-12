@@ -35,6 +35,7 @@ function get_instance_names() {
 }
 
 function initial_check() {
+    dep_check_msg
     for i in "${DEPENDS_ON[@]}"; do
         if [[ -d "${HOME}/${i}" ]]; then
             dep_found_msg "${i}"
@@ -72,7 +73,11 @@ function welcome_msg() {
     printf "\n\tThis will take some time ...\n"
     printf "\n\t\033[31mWARNING:\033[0m\n"
     printf "Make sure you are \033[31mnot\033[0m printing meanwhile!\n"
-    printf "While install is running all related services will be stopped!\n"
+    printf "While install is running all related services will be stopped!\n\n"
+}
+
+function dep_check_msg() {
+    printf "Check for dependencies to use moonraker-timelapse ...\n"
 }
 
 function dep_found_msg() {
