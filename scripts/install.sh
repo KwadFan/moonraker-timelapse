@@ -129,15 +129,6 @@ function install_first_msg() {
 
 # Default Parameters
 function main() {
-    get_instance_names
-
-
-
-
-
-echo "${DATA_DIR[@]}"
-echo "${DATA_DIR[1]}"
-echo "${SRC_DIR}"
 
 # Step 1: Print welcome message
 welcome_msg
