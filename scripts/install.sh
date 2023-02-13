@@ -138,14 +138,15 @@ function get_instance_names() {
 function determine_data_structure() {
     ## See if there is more then 'klipper_config'
     get_instance_names
+    echo "${DATA_DIR[@]}"
     if [[ -d "${HOME}/klipper_config" ]] &&
-    [[ "${#DATA_DIR[@]}" -eq 0 ]]; then
+    [[ "${#DATA_DIR[@]}" -eq 1 ]]; then
         DATA_DIR+=( klipper_config )
         printf "Old data structure found '%s'" "${DATA_DIR[0]}"
         return
     fi
     if [[ ! -d "${HOME}/klipper_config" ]] &&
-    [[ "${#DATA_DIR[@]}" -lt 2 ]] &&
+    [[ "${#DATA_DIR[@]}" -eq 1 ]] &&
     [[ "${DATA_DIR[0]}" == "printer_data" ]] ; then
         printf "New data structure found '%s' (single instance)\n" "${DATA_DIR[0]}"
         return
