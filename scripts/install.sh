@@ -201,7 +201,7 @@ function link_macro_file() {
         for path in "${DATA_DIR[@]}"; do
             if [[ -d "${HOME}/${path}/config" ]]; then
                 link_to_msg "${path}"
-                if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/config/timelapse.cfg"; then
+                if ln -sf "${src}" "${HOME}/${path}/config/timelapse.cfg"; then
                     link_to_ok_msg
                     return
                 else
