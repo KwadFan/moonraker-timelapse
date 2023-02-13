@@ -70,7 +70,8 @@ function initial_check() {
 }
 ### END
 
-### Service related funcs (Step 4)
+### Service related funcs
+## Grab service names
 function get_service_names() {
     for i in "${DEPENDS_ON[@]}"; do
         sudo systemctl list-units --full --all -t service --no-legend \
@@ -78,12 +79,14 @@ function get_service_names() {
     done
 }
 
+## Build array from names
 function set_service_name_array() {
     while read -r service ; do
         SERVICES+=("${service}")
     done < <(get_service_names)
 }
 
+## Stop related service (Step 4)
 function stop_services() {
     local service
     ## Create services array
@@ -103,6 +106,7 @@ function stop_services() {
     done
 }
 
+## Start related services (Step 9)
 function start_services() {
     local service
     ## Dsiplay header message
@@ -121,7 +125,8 @@ function start_services() {
 }
 ### END
 
-# Get Instance names, also used for single instance installs
+### Determine Data sructure (Step 5)
+## Get Instance names, also used for single instance installs
 function get_instance_names() {
     local instances path
     instances="$(find "${HOME}" -maxdepth 1 -type d -name "*_data" -printf "%P\n")"
@@ -129,6 +134,84 @@ function get_instance_names() {
         DATA_DIR+=("${path}")
     done <<< "${instances}"
 }
+
+function determine_data_structure() {
+    ## See if there is more then 'klipper_config'
+    get_instance_names
+    if [[ -d "${HOME}/klipper_config" ]] &&
+    [[ "${#DATA_DIR[@]}" -eq 0 ]]; then
+        DATA_DIR+=( klipper_config )
+        printf "Old data structure found '%s'" "${DATA_DIR[0]}"
+        return
+    fi
+    if [[ ! -d "${HOME}/klipper_config" ]] &&
+    [[ "${DATA_DIR[0]}" == "printer_data" ]] ; then
+        printf "New data structure found '%s' (single instance)" "${DATA_DIR[0]}"
+        return
+    fi
+    if [[ ! -d "${HOME}/klipper_config" ]] &&
+    [[ "${#DATA_DIR[@]}" -gt 1 ]] ; then
+        printf "New data structure found ... (Multi instance)"
+        return
+    fi
+}
+### END
+
+
+### Link component (Step 6)
+function link_component() {
+    if [ -d "${MOONRAKER_TARGET_DIR}" ]; then
+        printf "Linking extension to moonraker ... "
+        if ln -sf "${SRC_DIR}/component/timelapse.py" \
+        "${MOONRAKER_TARGET_DIR}/timelapse.py" &> /dev/null; then
+            printf "[\033[32mOK\033[0m]\n"
+        else
+            printf "[\033[31mFAILED\033[0m]\n"
+        fi
+    fi
+}
+
+### Link timelapse.cfg (Step 7)
+function link_macro_file() {
+    local src path
+    src="${SRC_DIR}/klipper_macro/timelapse.cfg"
+    if [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
+        link_to_msg "${DATA_DIR[0]}"
+        if ln -sf "${src}" "${DATA_DIR[0]}"; then
+            link_to_ok_msg
+            return
+        else
+            link_to_failed_msg
+            return
+        fi
+    fi
+    if [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
+        link_to_msg "${DATA_DIR[0]}"
+        if ln -sf "${src}" "${DATA_DIR[0]}"; then
+            link_to_ok_msg
+            return
+        else
+            link_to_failed_msg
+            return
+        fi
+    fi
+    if [[ "${#DATA_DIR[@]}" -gt 1 ]]; then
+        for path in "${DATA_DIR[@]}"; do
+            if [[ -d "${path}" ]]; then
+                link_to_msg "${path}"
+                if ln -sf "${src}" "${DATA_DIR[0]}"; then
+                    link_to_ok_msg
+                    return
+                else
+                    link_to_failed_msg
+                    return
+                fi
+            fi
+        done
+    fi
+}
+
+### Check for ffmpeg (Step 8)
 
 # Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
@@ -138,20 +221,10 @@ function ffmpeg_installed() {
         echo "${path}"
     fi
 }
+### END
 
-function link_component() {
-    if [ -d "${MOONRAKER_TARGET_DIR}" ]; then
-        echo "Linking extension to moonraker..."
-        ln -sf "${SRC_DIR}/component/timelapse.py" "${MOONRAKER_TARGET_DIR}/timelapse.py"
-    else
-        echo -e "ERROR: ${MOONRAKER_TARGET_DIR} not found."
-        echo -e "Please Install moonraker first!\nExiting..."
-        exit 1
-    fi
-}
 
 ## Message helper funcs
-
 ### Welcome message (Step 1)
 function welcome_msg() {
     printf "\n\033[31mAhoi!\033[0m\n"
@@ -163,7 +236,7 @@ function welcome_msg() {
     printf "\033[31m##################################################\033[0m\n\n"
 }
 
-### Dependencie messages
+### Dependencie messages (Step 3)
 function dep_check_msg() {
     printf "Check for dependencies to use moonraker-timelapse ...\n"
 }
@@ -178,7 +251,7 @@ function dep_not_found_msg() {
 }
 ### END
 
-### Service related msg
+### Service related msg (Step 4, Step 9)
 function stop_service_header_msg() {
     printf "Stopping related service(s) ... \n"
 }
@@ -212,6 +285,23 @@ function service_start_failed_msg() {
 }
 ### END
 
+### Data Structure (Step 5) related messages
+
+
+### Link timelapse.cfg related messages (Step 7)
+function link_to_msg() {
+    printf "Linking timelapse.cfg to '%s' ... " "${1}"
+}
+
+function link_to_ok_msg() {
+    printf "[\033[32mOK\033[0m]\n"
+}
+
+function link_to_failed_msg() {
+    printf "[\033[31mFAILED\033[0m]\n"
+}
+### END
+
 ### Error messages
 function install_first_msg() {
     printf "Please install '%s' first! [\033[31mEXITING\033[0m]\n" "${1}"
@@ -221,20 +311,16 @@ function install_first_msg() {
 function abort_msg() {
     printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
 }
-
-# function reboot_declined_msg() {
-#     printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
-#     printf "GoodBye ...\n"
-# }
 ### END
 
-### Install finished message(s)
+### Install finished message(s) (Step 10)
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\033[34mHappy printing!\033[0m\n"
+    printf "\033[34mHappy printing!\033[0m\n\n"
 }
+### END
 
-# Default Parameters
+### MAIN
 function main() {
 
 # Step 1: Print welcome message
@@ -250,15 +336,21 @@ initial_check
 stop_services
 
 # Step 5: Determine data structure
+determine_data_structure
 
 # Step 6: Link component to $MOONRAKER_TARGET_DIR
+link_component
 
-# Step 7: Link timelapse.cfg to $INSTANCE
+# Step 7: Link timelapse.cfg to $DATA_DIR
+link_macro_file
 
-# Step 8: Restart services
+# Step 8: Check for ffmpeg
+check_ffmpeg
+
+# Step 9: Restart services
 start_services
 
-# Step 9: Print finish message
+# Step 10: Print finish message
 finished_install_msg
 
 }
@@ -269,31 +361,3 @@ main
 exit 0
 
 ###### EOF ######
-
-# function link_extension() {
-#
-#     if [ -d "${KLIPPER_CONFIG_DIR}" ]; then
-#         echo "Linking macro file..."
-#         ln -sf "${SRCDIR}/klipper_macro/timelapse.cfg" "${KLIPPER_CONFIG_DIR}/timelapse.cfg"
-#     else
-#         echo -e "ERROR: ${KLIPPER_CONFIG_DIR} not found."
-#         echo -e "Try:\nUsage: ${0} -c /path/to/klipper_config\nExiting..."
-#         exit 1
-#     fi
-# }
-
-
-
-
-
-
-
-# # Run steps
-# stop_klipper
-# stop_moonraker
-# link_extension
-# restart_services
-# check_ffmpeg
-
-# # If something checks status of install
-# exit 0
