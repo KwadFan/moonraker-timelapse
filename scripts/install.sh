@@ -237,7 +237,8 @@ function check_ffmpeg() {
                     sudo apt-get install --yes ffmpeg
                 ;;
                 [Nn]* )
-                    printf "Installation of 'ffmpeg' skipped ..."
+                    printf "Installation of 'ffmpeg' skipped ...\n"
+                    break
                 ;;
                 * )
                     printf "\033[31mERROR: Please type Y or N !\033[0m"
@@ -245,6 +246,7 @@ function check_ffmpeg() {
             esac
         done
     fi
+    return
 }
 ### END
 
