@@ -24,6 +24,7 @@ fi
 ### END
 
 ## Initialize global vars and arrays
+DEPENDS_ON=( moonraker klipper )
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
 SERVICES=()
 ### END
