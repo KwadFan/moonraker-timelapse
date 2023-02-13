@@ -108,7 +108,7 @@ function start_services() {
 ### remove component (Step 4)
 function remove_component() {
     if [ -d "${MOONRAKER_TARGET_DIR}" ]; then
-        printf "Linking extension to moonraker ... "
+        printf "Removing extension from moonraker ... "
         if rm -f "${MOONRAKER_TARGET_DIR}/timelapse.py" &> /dev/null; then
             printf "[\033[32mOK\033[0m]\n"
         else
