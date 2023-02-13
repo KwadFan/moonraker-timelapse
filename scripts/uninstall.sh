@@ -13,7 +13,7 @@
 set -Ee
 
 ## Debug Option
-# set -x
+set -x
 
 ### Check non-root
 if [[ ${UID} = "0" ]]; then
