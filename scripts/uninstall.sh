@@ -125,8 +125,8 @@ function remove_component() {
 
 function remove_links() {
     local -a path
-    path=( "$(find "${HOME}" -type l -name "timelapse.cfg" -printf "%P\n")" )
-    for i in "${path[@]}"; do
+    path="$(find "${HOME}" -type l -name "timelapse.cfg" -printf "%P\n")"
+    for i in ${path}; do
         rm -f "${HOME}/${i}"
     done
 }
