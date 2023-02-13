@@ -304,6 +304,13 @@ function link_to_failed_msg() {
 }
 ### END
 
+### Install finished message(s) (Step 10)
+function finished_install_msg() {
+    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
+    printf "\033[34mHappy printing!\033[0m\n\n"
+}
+### END
+
 ### Error messages
 function install_first_msg() {
     printf "Please install '%s' first! [\033[31mEXITING\033[0m]\n" "${1}"
@@ -312,13 +319,6 @@ function install_first_msg() {
 
 function abort_msg() {
     printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
-}
-### END
-
-### Install finished message(s) (Step 10)
-function finished_install_msg() {
-    printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\033[34mHappy printing!\033[0m\n\n"
 }
 ### END
 
