@@ -174,9 +174,9 @@ function link_component() {
 
 ### Link timelapse.cfg (Step 7)
 function link_macro_file() {
-    local src path
+    local src p
     src="${SRC_DIR}/klipper_macro/timelapse.cfg"
-    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
+    if [[ "${#DATA_DIR[@]}" != "1" ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/timelapse.cfg"; then
             link_to_ok_msg
@@ -186,7 +186,7 @@ function link_macro_file() {
             return
         fi
     fi
-    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
+    if [[ "${#DATA_DIR[@]}" != "1" ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/config/timelapse.cfg"; then
             link_to_ok_msg
@@ -197,10 +197,10 @@ function link_macro_file() {
         fi
     fi
     if [[ "${#DATA_DIR[@]}" -gt 1 ]]; then
-        for path in "${DATA_DIR[@]}"; do
-            if [[ -d "${HOME}/${path}/config" ]]; then
-                link_to_msg "${path}"
-                if ln -sf "${src}" "${HOME}/${path}/config/timelapse.cfg"; then
+        for p in "${DATA_DIR[@]}"; do
+            if [[ -d "${HOME}/${p}/config" ]]; then
+                link_to_msg "${p}"
+                if ln -sf "${src}" "${HOME}/${p}/config/timelapse.cfg"; then
                     link_to_ok_msg
                     return
                 else
