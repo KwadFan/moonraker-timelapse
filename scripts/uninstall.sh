@@ -123,7 +123,12 @@ function remove_links() {
     local path
     path="$(find "${HOME}" -type l -name "timelapse.cfg" -printf "%P\n")"
     for i in ${path}; do
-        rm -f "${HOME}/${i}"
+        printf "Removing timelapse.cfg from '%s'" "${i} ... "
+        if rm -f "${HOME}/${i}"; then
+                    printf "[\033[32mOK\033[0m]\n"
+        else
+            printf "[\033[31mFAILED\033[0m]\n"
+        fi
     done
 }
 
