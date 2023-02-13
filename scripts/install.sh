@@ -145,7 +145,7 @@ function determine_data_structure() {
         return
     fi
     if [[ ! -d "${HOME}/klipper_config" ]] &&
-    [[ "${#DATA_DIR[@]}" -gt 1 ]] &&
+    [[ "${#DATA_DIR[@]}" -lt 2 ]] &&
     [[ "${DATA_DIR[0]}" == "printer_data" ]] ; then
         printf "New data structure found '%s' (single instance)\n" "${DATA_DIR[0]}"
         return
