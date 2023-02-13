@@ -74,10 +74,6 @@ function stop_services() {
     set_service_name_array
     ## Dsiplay header message
     stop_service_header_msg
-
-    echo "${SERVICES[@]}"
-
-
     ## Stop services
     for service in "${SERVICES[@]}"; do
         stop_service_msg "${service}"
@@ -124,7 +120,7 @@ function remove_component() {
 ### END
 
 function remove_links() {
-    local -a path
+    local path
     path="$(find "${HOME}" -type l -name "timelapse.cfg" -printf "%P\n")"
     for i in ${path}; do
         rm -f "${HOME}/${i}"
