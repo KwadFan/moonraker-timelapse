@@ -175,7 +175,7 @@ function link_component() {
 function link_macro_file() {
     local src path
     src="${SRC_DIR}/klipper_macro/timelapse.cfg"
-    if [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
+    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${DATA_DIR[0]}"; then
             link_to_ok_msg
@@ -185,7 +185,7 @@ function link_macro_file() {
             return
         fi
     fi
-    if [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
+    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${DATA_DIR[0]}"; then
             link_to_ok_msg
@@ -212,8 +212,7 @@ function link_macro_file() {
 }
 
 ### Check for ffmpeg (Step 8)
-
-# Check if ffmpeg is installed, returns path if installed
+## Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
     local path
     path="$(command -v ffmpeg)"
@@ -221,6 +220,9 @@ function ffmpeg_installed() {
         echo "${path}"
     fi
 }
+
+
+
 ### END
 
 
