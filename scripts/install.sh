@@ -108,11 +108,11 @@ function start_services() {
     ## Create services array
     set_service_name_array
     ## Dsiplay header message
-    stop_service_header_msg
+    start_service_header_msg
     ## Stop services
     for service in "${SERVICES[@]}"; do
-        stop_service_msg "${service}"
-        if sudo systemctl -q is-active "${service}"; then
+        start_service_msg "${service}"
+        if ! sudo systemctl -q is-active "${service}"; then
             sleep 1
             #sudo systemctl start "${service}"
             service_started_msg
@@ -218,6 +218,14 @@ function service_stopped_msg() {
 
 function service_not_active_msg() {
     printf "[\033[31mNOT ACTIVE\033[0m]\n"
+}
+
+function start_service_header_msg() {
+    printf "Starting related service(s) ... \n"
+}
+
+function start_service_msg() {
+    printf "Starting service '%s' ... " "${1}"
 }
 
 function service_started_msg() {
