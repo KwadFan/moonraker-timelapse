@@ -105,8 +105,6 @@ function stop_services() {
 
 function start_services() {
     local service
-    ## Create services array
-    set_service_name_array
     ## Dsiplay header message
     start_service_header_msg
     ## Stop services
