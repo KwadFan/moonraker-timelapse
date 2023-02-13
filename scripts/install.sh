@@ -175,7 +175,6 @@ function link_component() {
 ### Link timelapse.cfg (Step 7)
 function link_macro_file() {
     local src path
-    echo "${#DATA_DIR[@]}"
     src="${SRC_DIR}/klipper_macro/timelapse.cfg"
     if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
         link_to_msg "${DATA_DIR[0]}"
