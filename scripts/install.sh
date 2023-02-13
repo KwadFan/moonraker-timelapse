@@ -327,16 +327,33 @@ function link_to_failed_msg() {
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
     config_hint_header
+    config_hint_block
     config_hint_footer
     printf "\033[34mHappy printing!\033[0m\n\n"
 }
 
 function config_hint_header() {
-    printf "Please add the following to your moonraker.conf:"
+    printf "Please add the following to your moonraker.conf:\n\n"
 }
 
 function config_hint_footer() {
-    printf "For further information visit https://github.com/mainsail-crew/moonraker-timelapse/blob/main/docs/configuration.md"
+    printf "For further information please visit:\n"
+    printf "https://github.com/mainsail-crew/moonraker-timelapse/blob/main/docs/configuration.md\n"
+}
+
+function config_hint_block(){
+    if [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
+        printf "\n\t- for Printer %s:\n" "${DATA_DIR[0]/_config/}"
+        printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${DATA_DIR[0]}"
+        printf "\tframe_path: /tmp/timelapse\n"
+        return
+    fi
+    for i in "${DATA_DIR[@]}"; do
+        printf "\n\t- for Printer %s:\n" "${i/_data/}"
+        printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${i}"
+        printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
+    done
+    return
 }
 ### END
 
