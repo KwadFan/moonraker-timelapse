@@ -336,11 +336,11 @@ function finished_install_msg() {
 }
 
 function config_hint_header() {
-    printf "Please add the following to your moonraker.conf:\n\n"
+    printf "\nPlease add the following to your moonraker.conf:\n"
 }
 
 function config_hint_footer() {
-    printf "For further information please visit:\n"
+    printf "\nFor further information please visit:\n"
     printf "https://github.com/mainsail-crew/moonraker-timelapse/blob/main/docs/configuration.md\n"
 }
 
