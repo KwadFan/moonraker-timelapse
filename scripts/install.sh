@@ -246,10 +246,7 @@ function check_ffmpeg() {
         done
     fi
 }
-
-
 ### END
-
 
 ## Message helper funcs
 ### Welcome message (Step 1)
