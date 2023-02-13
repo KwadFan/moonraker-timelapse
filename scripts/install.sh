@@ -95,7 +95,7 @@ function stop_services() {
         stop_service_msg "${service}"
         if sudo systemctl -q is-active "${service}"; then
             sleep 1
-            #sudo systemctl stop "${service}"
+            sudo systemctl stop "${service}"
             service_stopped_msg
         else
             service_not_active_msg
@@ -112,7 +112,7 @@ function start_services() {
         start_service_msg "${service}"
         if ! sudo systemctl -q is-active "${service}"; then
             sleep 1
-            #sudo systemctl start "${service}"
+            sudo systemctl start "${service}"
             service_started_msg
         else
             service_start_failed_msg
