@@ -130,29 +130,6 @@ function get_instance_names() {
     done <<< "${instances}"
 }
 
-# # Ask to reboot
-# function ask_to_reboot() {
-#     local reply
-#     finished_install_msg
-#     while true; do
-#         read -erp "Would you like to proceed with rebooting? [Y/n]: " -i "Y" reply
-#         case "${reply}" in
-#             [Yy]* )
-#                 printf "\nRebooting in 5 seconds ... "
-#                 sleep 5
-#                 sudo reboot
-#             ;;
-#             [Nn]* )
-#                 reboot_declined_msg
-#                 exit 0
-#             ;;
-#             * )
-#                 printf "\033[31mERROR: Please type Y or N !\033[0m"
-#             ;;
-#         esac
-#     done
-# }
-
 # Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
     local path
@@ -254,7 +231,7 @@ function abort_msg() {
 ### Install finished message(s)
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
-    printf "\n\tTo bring up stopped services it is recommended to reboot.\n\n"
+    printf "\033[34mHappy printing!\033[0m\n"
 }
 
 # Default Parameters
@@ -280,6 +257,9 @@ stop_services
 
 # Step 8: Restart services
 start_services
+
+# Step 9: Print finish message
+finished_install_msg
 
 }
 
