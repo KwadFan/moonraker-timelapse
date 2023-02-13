@@ -326,7 +326,17 @@ function link_to_failed_msg() {
 ### Install finished message(s) (Step 10)
 function finished_install_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m installed ...\n"
+    config_hint_header
+    config_hint_footer
     printf "\033[34mHappy printing!\033[0m\n\n"
+}
+
+function config_hint_header() {
+    printf "Please add the following to your moonraker.conf:"
+}
+
+function config_hint_footer() {
+    printf "For further information visit https://github.com/mainsail-crew/moonraker-timelapse/blob/main/docs/configuration.md"
 }
 ### END
 
