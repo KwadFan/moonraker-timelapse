@@ -13,7 +13,7 @@
 set -Ee
 
 ## Debug Option
-set -x
+# set -x
 
 ### Check non-root
 if [[ ${UID} = "0" ]]; then
@@ -176,7 +176,7 @@ function link_component() {
 function link_macro_file() {
     local src p
     src="${SRC_DIR}/klipper_macro/timelapse.cfg"
-    if [[ "${#DATA_DIR[@]}" -eq "1" ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
+    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "klipper_config" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/timelapse.cfg"; then
             link_to_ok_msg
@@ -186,7 +186,7 @@ function link_macro_file() {
             return
         fi
     fi
-    if [[ "${#DATA_DIR[@]}" -eq "1" ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
+    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
         echo "test"
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/config/timelapse.cfg"; then
@@ -197,16 +197,14 @@ function link_macro_file() {
             return
         fi
     fi
-    if [[ "${#DATA_DIR[@]}" -gt "1" ]]; then
+    if [[ "${#DATA_DIR[@]}" -gt 1 ]]; then
         for p in "${DATA_DIR[@]}"; do
             if [[ -d "${HOME}/${p}/config" ]]; then
                 link_to_msg "${p}"
                 if ln -sf "${src}" "${HOME}/${p}/config/timelapse.cfg"; then
                     link_to_ok_msg
-                    return
                 else
                     link_to_failed_msg
-                    return
                 fi
             fi
         done
