@@ -152,7 +152,7 @@ function determine_data_structure() {
     fi
     if [[ ! -d "${HOME}/klipper_config" ]] &&
     [[ "${#DATA_DIR[@]}" -gt 1 ]] ; then
-        printf "New data structure found ... (Multi instance)"
+        printf "New data structure found ... (Multi instance)\n"
         return
     fi
 }
@@ -186,7 +186,7 @@ function link_macro_file() {
             return
         fi
     fi
-    if [[ "${#DATA_DIR[@]}" -lt 2 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
+    if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/config/timelapse.cfg"; then
             link_to_ok_msg
