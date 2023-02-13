@@ -182,7 +182,7 @@ function service_start_failed_msg() {
 ### Install finished message(s) (Step 7)
 function finished_uninstall_msg() {
     printf "\nmoonraker-timelapse \033[32msuccessful\033[0m uninstalled ...\n"
-    printf "\n\tPlease \033[31mDO NOT\033[0m forget to delete timelapse entrys from 'moonraker.conf'\n"
+    printf "\n\tPlease \033[31mDO NOT\033[0m forget to delete timelapse entrys from 'moonraker.conf'\n\n"
     printf "\033[34mHappy printing!\033[0m\n\n"
 }
 
