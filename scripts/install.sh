@@ -102,6 +102,25 @@ function stop_services() {
         fi
     done
 }
+
+function start_services() {
+    local service
+    ## Create services array
+    set_service_name_array
+    ## Dsiplay header message
+    stop_service_header_msg
+    ## Stop services
+    for service in "${SERVICES[@]}"; do
+        stop_service_msg "${service}"
+        if sudo systemctl -q is-active "${service}"; then
+            sleep 1
+            #sudo systemctl start "${service}"
+            service_started_msg
+        else
+            service_start_failed_msg
+        fi
+    done
+}
 ### END
 
 # Get Instance names, also used for single instance installs
@@ -113,32 +132,28 @@ function get_instance_names() {
     done <<< "${instances}"
 }
 
-
-
-
-
-# Ask to reboot
-function ask_to_reboot() {
-    local reply
-    finished_install_msg
-    while true; do
-        read -erp "Would you like to proceed with rebooting? [Y/n]: " -i "Y" reply
-        case "${reply}" in
-            [Yy]* )
-                printf "\nRebooting in 5 seconds ... "
-                sleep 5
-                sudo reboot
-            ;;
-            [Nn]* )
-                reboot_declined_msg
-                exit 0
-            ;;
-            * )
-                printf "\033[31mERROR: Please type Y or N !\033[0m"
-            ;;
-        esac
-    done
-}
+# # Ask to reboot
+# function ask_to_reboot() {
+#     local reply
+#     finished_install_msg
+#     while true; do
+#         read -erp "Would you like to proceed with rebooting? [Y/n]: " -i "Y" reply
+#         case "${reply}" in
+#             [Yy]* )
+#                 printf "\nRebooting in 5 seconds ... "
+#                 sleep 5
+#                 sudo reboot
+#             ;;
+#             [Nn]* )
+#                 reboot_declined_msg
+#                 exit 0
+#             ;;
+#             * )
+#                 printf "\033[31mERROR: Please type Y or N !\033[0m"
+#             ;;
+#         esac
+#     done
+# }
 
 # Check if ffmpeg is installed, returns path if installed
 function ffmpeg_installed() {
@@ -204,6 +219,14 @@ function service_stopped_msg() {
 function service_not_active_msg() {
     printf "[\033[31mNOT ACTIVE\033[0m]\n"
 }
+
+function service_started_msg() {
+    printf "[\033[32mOK\033[0m]\n"
+}
+
+function service_start_failed_msg() {
+    printf "[\033[31mFAILED\033[0m]\n"
+}
 ### END
 
 ### Error messages
@@ -216,10 +239,10 @@ function abort_msg() {
     printf "Install aborted by user ... \033[31mExiting!\033[0m\n"
 }
 
-function reboot_declined_msg() {
-    printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
-    printf "GoodBye ...\n"
-}
+# function reboot_declined_msg() {
+#     printf "\nRemember all service are stopped!\nReboot or start them by hand ...\n"
+#     printf "GoodBye ...\n"
+# }
 ### END
 
 ### Install finished message(s)
@@ -249,8 +272,8 @@ stop_services
 
 # Step 7: Link timelapse.cfg to $INSTANCE
 
-# Step 8: ask for reboot
-ask_to_reboot
+# Step 8: Restart services
+start_services
 
 }
 
