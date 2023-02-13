@@ -287,9 +287,6 @@ function service_start_failed_msg() {
 }
 ### END
 
-### Data Structure (Step 5) related messages
-
-
 ### Link timelapse.cfg related messages (Step 7)
 function link_to_msg() {
     printf "Linking timelapse.cfg to '%s' ... " "${1}"
