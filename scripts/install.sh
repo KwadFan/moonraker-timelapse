@@ -223,17 +223,17 @@ function ffmpeg_installed() {
 
 function check_ffmpeg() {
     if [[ -n "$(ffmpeg_installed)" ]]; then
-        printf "Dependency 'ffmpeg' found in '%s'" "$(ffmpeg_installed)"
+        printf "Dependency 'ffmpeg' found in '%s'" "$(ffmpeg_installed)\n"
     else
-        printf "Dependency 'ffmpeg' not found!"
+        printf "Dependency 'ffmpeg' not found!\n"
         local reply
         while true; do
             read -erp "Would you like to install 'ffmpeg'? [Y/n]: " -i "Y" reply
             case "${reply}" in
                 [Yy]* )
-                    printf "Running 'apt-get update' ..."
+                    printf "Running 'apt-get update' ...\n"
                     sudo apt-get update
-                    printf "Installing 'ffmpeg' ..."
+                    printf "Installing 'ffmpeg' ...\n"
                     sudo apt-get install --yes ffmpeg
                 ;;
                 [Nn]* )
@@ -241,7 +241,7 @@ function check_ffmpeg() {
                     break
                 ;;
                 * )
-                    printf "\033[31mERROR: Please type Y or N !\033[0m"
+                    printf "\033[31mERROR: Please type Y or N !\033[0m\n"
                 ;;
             esac
         done
