@@ -31,6 +31,7 @@ SRC_DIR="$( cd "$(dirname "$(dirname "${BASH_SOURCE[0]}")")"/ && pwd )"
 DATA_DIR=()
 DEPENDS_ON=( moonraker klipper )
 MOONRAKER_TARGET_DIR="${HOME}/moonraker/moonraker/components"
+PKGLIST="wget"
 SERVICES=()
 ### END
 
@@ -67,6 +68,8 @@ function initial_check() {
             dep_not_found_msg "${i}"
         fi
     done
+    printf "Installing core dependencies: '%s' ... " "${PKGLIST}"
+    sudo apt-get update && sudo apt-get install --yes "${PKGLIST}"
 }
 ### END
 
