@@ -68,7 +68,7 @@ function initial_check() {
             dep_not_found_msg "${i}"
         fi
     done
-    printf "Installing core dependencies: '%s' ... " "${PKGLIST}"
+    printf "Installing core dependencies: '%s' ... \n" "${PKGLIST}"
     sudo apt-get update && sudo apt-get install --yes "${PKGLIST}"
 }
 ### END
