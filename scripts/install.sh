@@ -356,8 +356,8 @@ function config_hint_block(){
         printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
     done
         if [[ "${#DATA_DIR[@]}" -ne "${#SERVICES[@]}" ]]; then
-            printf "Folder structure and service count doenst match!\n"
-            printf "Please update only moonraker.conf of the installed printer"
+            printf "\nFolder structure and service count doenst match!\n"
+            printf "Please update only moonraker.conf of the installed printer\n\n"
         fi
     return
 }
