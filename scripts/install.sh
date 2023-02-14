@@ -223,7 +223,7 @@ function ffmpeg_installed() {
 
 function check_ffmpeg() {
     if [[ -n "$(ffmpeg_installed)" ]]; then
-        printf "Dependency 'ffmpeg' found in '%s'" "$(ffmpeg_installed)\n"
+        printf "Dependency 'ffmpeg' found in '%s'\n" "$(ffmpeg_installed)"
     else
         printf "Dependency 'ffmpeg' not found!\n"
         local reply
