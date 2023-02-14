@@ -351,14 +351,14 @@ function config_hint_block(){
         return
     fi
     for i in "${DATA_DIR[@]}"; do
-        for j in "${SERVICES[@]}"; do
-            if "${SERVICES[@]}" ~= "${j}"; then
-                printf "\n\t- for Printer %s:\n" "${i/_data/}"
-                printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${i}"
-                printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
-            fi
-        done
+        printf "\n\t- for Printer %s:\n" "${i/_data/}"
+        printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${i}"
+        printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
     done
+        if [[ "${#DATA_DIR[@]}" -ne "${#SERVICES[@]}" ]]; then
+            printf "Folder structure and service count doenst match!\n"
+            printf "Please update only moonraker.conf of the installed printer"
+        fi
     return
 }
 ### END
