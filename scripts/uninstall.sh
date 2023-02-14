@@ -56,7 +56,7 @@ function continue_uninstall() {
 function get_service_names() {
     for i in "${DEPENDS_ON[@]}"; do
         sudo systemctl list-units --full --all -t service --no-legend \
-        | grep "${i}*" | awk -F" " '{print $1}'
+        | sed 's/^  //' | grep "^${i}*" | awk -F" " '{print $1}'
     done
 }
 
