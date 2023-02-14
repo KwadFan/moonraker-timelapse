@@ -187,7 +187,6 @@ function link_macro_file() {
         fi
     fi
     if [[ "${#DATA_DIR[@]}" -eq 1 ]] && [[ "${DATA_DIR[0]}" == "printer_data" ]]; then
-        echo "test"
         link_to_msg "${DATA_DIR[0]}"
         if ln -sf "${src}" "${HOME}/${DATA_DIR[0]}/config/timelapse.cfg"; then
             link_to_ok_msg
