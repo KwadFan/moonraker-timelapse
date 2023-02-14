@@ -235,6 +235,7 @@ function check_ffmpeg() {
                     sudo apt-get update
                     printf "Installing 'ffmpeg' ...\n"
                     sudo apt-get install --yes ffmpeg
+                    break
                 ;;
                 [Nn]* )
                     printf "Installation of 'ffmpeg' skipped ...\n"
