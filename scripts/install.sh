@@ -351,11 +351,13 @@ function config_hint_block(){
         return
     fi
     for i in "${DATA_DIR[@]}"; do
-        if printf '%s\0' "${SERVICES[@]}" | grep -qxz -- "${i}"; then
-            printf "\n\t- for Printer %s:\n" "${i/_data/}"
-            printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${i}"
-            printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
-        fi
+        for j in "${SERVICES[@]}"; do
+            if "${SERVICES[@]}" ~= "${j}"; then
+                printf "\n\t- for Printer %s:\n" "${i/_data/}"
+                printf "\t[timelapse]\n\toutput_path: ~/%s/timelapse/\n" "${i}"
+                printf "\tframe_path: /tmp/timelapse/%s\n" "${i/_data/}"
+            fi
+        done
     done
     return
 }
